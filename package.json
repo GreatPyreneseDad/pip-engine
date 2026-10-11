@@ -1,0 +1,16 @@
+{
+  "name": "pip-engine",
+  "version": "0.1.0",
+  "description": "A tiny, kid-safe 2D game engine that an AI writes games against. Grown by CERATA.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Christopher MacGregor bin Joseph (ROSE Corp)",
+  "repository": "github:GreatPyreneseDad/pip-engine",
+  "exports": { ".": "./dist/pip-engine.mjs" },
+  "files": ["dist", "src", "api"],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "engines": { "node": ">=22" }
+}
