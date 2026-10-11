@@ -35,11 +35,23 @@ that is not written there does not exist. A test fails if `kit` grows a function
 
 ## Use it
 
+Two builds of the same engine:
+
 ```js
-import { engine, frameDoc, CONTRACT } from 'pip-engine';           // dist/pip-engine.mjs
+// ES module: bundlers, Deno and edge functions, Node
+import { engine, frameDoc, CONTRACT_PROMPT, VERSION } from './pip-engine.mjs';
 iframe.srcdoc = frameDoc(engine, { pre: partsSource, code: gameSource });
-// CONTRACT is api/kit.md: paste it into the model's system prompt.
+// CONTRACT_PROMPT is the contract from api/kit.md, ready to paste into the model's system prompt.
 ```
+
+```html
+<!-- classic script for plain pages: sets globalThis.PIP_ENGINE -->
+<script src="pip-engine.js"></script>
+<script>frame.srcdoc = PIP_ENGINE.frameDoc(PIP_ENGINE.engine, game);</script>
+```
+
+Pin a version, and ship the page's engine and the model's contract together. A game written against a
+newer `kit.*` will crash on an older runtime.
 
 The host listens for `postMessage` events from the frame: `ready`, `error`, `sound`, `note`, `say` and `win`.
 
