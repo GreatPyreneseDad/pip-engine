@@ -9,11 +9,37 @@ const BASE = { girl: 114, boy: 108, robot: 104, unicorn: 100, bunny: 98, dino: 8
 const PBASE = { tree: 80, pine: 92, bush: 28, flower: 24, rock: 20, palm: 92, shell: 12, snowman: 60, mushroom: 30, crystal: 40, lollipop: 70, cane: 46 };
 const FONT = 'ui-rounded, "Arial Rounded MT Bold", "Baloo 2", system-ui, sans-serif';
 const parts = []; let shakeAmt = 0, sayAt = -99, sounds = 0, wonAt = -99;
+
+/* ---------- easing (consumed from phaserjs/phaser, MIT) ---------- */
+function backOut(v, overshoot) { if (overshoot === undefined) { overshoot = 1.70158; } return --v * v * ((overshoot + 1) * v + overshoot) + 1; }
+function bounceOut(v) { if (v < 1 / 2.75) { return 7.5625 * v * v; } else if (v < 2 / 2.75) { return 7.5625 * (v -= 1.5 / 2.75) * v + 0.75; } else if (v < 2.5 / 2.75) { return 7.5625 * (v -= 2.25 / 2.75) * v + 0.9375; } else { return 7.5625 * (v -= 2.625 / 2.75) * v + 0.984375; } }
+function elasticOut(v, amplitude, period) { if (amplitude === undefined) { amplitude = 0.1; } if (period === undefined) { period = 0.1; } if (v === 0) { return 0; } else if (v === 1) { return 1; } else { var s = period / 4; if (amplitude < 1) { amplitude = 1; } else { s = period * Math.asin(1 / amplitude) / (2 * Math.PI); } return (amplitude * Math.pow(2, -10 * v) * Math.sin((v - s) * (2 * Math.PI) / period) + 1); } }
+function sineInOut(v) { if (v === 0) { return 0; } else if (v === 1) { return 1; } else { return 0.5 * (1 - Math.cos(Math.PI * v)); } }
+function quadInOut(v) { if ((v *= 2) < 1) { return 0.5 * v * v; } else { return -0.5 * (--v * (v - 2) - 1); } }
+function linear(v) { return v; }
+const EASINGS = { linear, bounce: bounceOut, elastic: elasticOut, back: backOut, sine: sineInOut, quad: quadInOut };
+
+const tweens = [];
 const kit = {
   t: 0, pointer: { x: W / 2, y: H / 2, down: false, pressed: false, released: false },
   rand: (a = 1, b) => b === undefined ? Math.random() * a : a + Math.random() * (b - a),
   pick: a => a && a.length ? a[Math.floor(Math.random() * a.length)] : undefined,
   clamp: (v, a, b) => v < a ? a : v > b ? b : v, dist: (x1, y1, x2, y2) => Math.hypot(x1 - x2, y1 - y2), lerp: (a, b, k) => a + (b - a) * k,
+  ease: (name, v) => { const fn = EASINGS[name] || linear; return fn(kit.clamp(+v || 0, 0, 1)); },
+  tween(target, props, duration, ease) {
+    if (!target || typeof target !== 'object' || !props || typeof props !== 'object') return;
+    duration = Math.max(0.01, +duration || 1);
+    const e = typeof ease === 'string' ? ease : 'quad';
+    const start = {}, end = {};
+    for (const k in props) {
+      if (typeof props[k] === 'number' && typeof target[k] === 'number') {
+        start[k] = target[k];
+        end[k] = props[k];
+      }
+    }
+    if (Object.keys(start).length === 0) return;
+    tweens.push({ target, start, end, duration, ease: e, elapsed: 0 });
+  },
   bg(top, bottom) { const gr = ctx.createLinearGradient(0, 0, 0, H); try { gr.addColorStop(0, top || '#8fd3ff'); gr.addColorStop(1, bottom || top || '#d6f5c9'); } catch (e) { gr.addColorStop(0, '#8fd3ff'); gr.addColorStop(1, '#d6f5c9'); } ctx.fillStyle = gr; ctx.fillRect(-20, -20, W + 40, H + 40); },
   _draw(x, y, size, base, o, feet, fn) { if (!isFinite(x) || !isFinite(y) || !(size > 0)) return; o = o || {}; const s = size / base; ctx.save(); ctx.translate(x, y); if (o.rot) { const c = feet ? -size / 2 : 0; ctx.translate(0, c); ctx.rotate(o.rot); ctx.translate(0, -c); } if (o.alpha !== undefined) ctx.globalAlpha = kit.clamp(+o.alpha || 0, 0, 1); ctx.scale(o.flip ? -s : s, s); try { fn(); } catch (e) {} ctx.restore(); },
   sprite(kind, x, y, size = 90, o) { const t = o && o.t !== undefined ? +o.t || 0 : 0;
@@ -31,6 +57,18 @@ const kit = {
   say(text) { if (kit.t - sayAt > 5) { sayAt = kit.t; post({ type: 'say', text: String(text).slice(0, 90) }); } },
   win() { if (kit.t - wonAt < 2) return; wonAt = kit.t; post({ type: 'win' }); for (let i = 0; i < 8; i++) kit.puff(W * (0.1 + Math.random() * 0.8), H * (0.15 + Math.random() * 0.5), ['#ff5a8a', '#ffd84d', '#57b8ff', '#5fd47a', '#b58cff'], 18); },
 };
+kit._updateTweens = function(dt) {
+  for (let i = tweens.length - 1; i >= 0; i--) {
+    const tw = tweens[i];
+    tw.elapsed += dt;
+    const p = Math.min(1, tw.elapsed / tw.duration);
+    const eased = kit.ease(tw.ease, p);
+    for (const k in tw.start) {
+      tw.target[k] = kit.lerp(tw.start[k], tw.end[k], eased);
+    }
+    if (p >= 1) tweens.splice(i, 1);
+  }
+};
 function pt(e) { kit.pointer.x = e.clientX; kit.pointer.y = e.clientY; }
 addEventListener('pointerdown', e => { pt(e); kit.pointer.down = true; kit.pointer.pressed = true; });
 addEventListener('pointermove', e => { pt(e); });
@@ -40,4 +78,3 @@ for (const ev of ['touchstart', 'touchmove', 'gesturestart', 'dblclick', 'contex
 let paused = false, dead = false, frames = 0, lastT = 0;
 addEventListener('message', e => { if (e.source === parent && e.data && e.data.gm) { if (e.data.type === 'pause') paused = !!e.data.on; } });
 function fail(e) { if (dead) return; dead = true; post({ type: 'error', message: String(e && e.message || e).slice(0, 300), stack: String(e && e.stack || '').slice(0, 400), frames }); }
-

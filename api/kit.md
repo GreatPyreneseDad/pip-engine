@@ -24,5 +24,7 @@ kit.puff(x, y, colors, n)                     sparkle burst. kit animates and dr
 kit.shake(amount)                             brief screen shake, amount about 4 to 12
 kit.say(text)                                 Pip says up to 10 words aloud. Use rarely: at big moments only, never every frame.
 kit.win()                                     call ONCE when the child finishes a round: confetti and fanfare. Then start a new, slightly different round yourself about 3 seconds later.
+kit.tween(target, props, duration, ease)      smooth animation: tween target object's numeric properties to new values over duration seconds. ease: 'linear', 'bounce', 'elastic', 'back', 'sine', 'quad'. Example: kit.tween(frog, { y: 100, size: 120 }, 0.8, 'bounce')
+kit.ease(name, v)                             pure easing function: pass v in [0,1], get eased value back. names: 'linear', 'bounce', 'elastic', 'back', 'sine', 'quad'. Use with kit.lerp for manual tweening.
 kit.rand(a, b)  kit.pick(array)  kit.clamp(v, a, b)  kit.dist(x1, y1, x2, y2)  kit.lerp(a, b, k)
 ```
