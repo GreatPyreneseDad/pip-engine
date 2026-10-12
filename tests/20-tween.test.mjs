@@ -2,14 +2,30 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { runGame } from './harness.mjs';
 
-test('kit.ease returns 0 for unknown easing name', () => {
+test('kit.ease treats unknown names as linear (a typo never freezes a game)', () => {
   const code = `const game = {
     update() { globalThis.__result = kit.ease('notreal', 0.5); },
     draw() {}
   };`;
   const r = runGame(code, { frames: 2 });
   assert.equal(r.error, null);
-  assert.equal(r.ctx.__result, 0);
+  assert.equal(r.ctx.__result, 0.5);
+});
+
+test('kit.tween with an unknown or misspelled ease still moves the object', () => {
+  const r = runGame(`const o = { x: 0 }; kit.tween(o, { x: 100 }, 0.5, 'bounce'); const p = { x: 0 }; kit.tween(p, { x: 100 }, 0.5, 'linear');
+    const game = { update() { globalThis.__x = [o.x, p.x]; }, draw() {} };`, { frames: 60 });
+  assert.equal(r.error, null);
+  assert.equal(r.ctx.__x[0], 100);
+  assert.equal(r.ctx.__x[1], 100);
+});
+
+test('a new tween on the same property replaces the old one', () => {
+  const r = runGame(`const o = { y: 0, x: 0 }; kit.tween(o, { y: 100, x: 50 }, 1); let n = 0;
+    const game = { update() { if (++n === 20) kit.tween(o, { y: -100 }, 0.3); globalThis.__o = { y: o.y, x: o.x }; }, draw() {} };`, { frames: 80 });
+  assert.equal(r.error, null);
+  assert.equal(r.ctx.__o.y, -100);   // the newer tween owns y
+  assert.equal(r.ctx.__o.x, 50);     // the older tween still finishes x
 });
 
 test('kit.ease clamps t to [0, 1] and returns valid values', () => {
@@ -57,7 +73,7 @@ test('kit.ease ignores invalid inputs', () => {
   };`;
   const r = runGame(code, { frames: 2 });
   assert.equal(r.error, null);
-  assert.equal(r.ctx.__r1, 0);
+  assert.equal(r.ctx.__r1, 0.5);   // no name: linear
   assert.equal(r.ctx.__r2, 0);
   assert.equal(r.ctx.__r3, 0);
 });
@@ -96,7 +112,6 @@ test('kit.tween ignores invalid inputs', () => {
         kit.tween(obj, null, 1);
         kit.tween(obj, { x: 50 }, -1);
         kit.tween(obj, { x: 50 }, NaN);
-        kit.tween(obj, { x: 50 }, 1, 123);
         kit.tween(obj, { y: 'bad' }, 1);
       },
       update() { globalThis.__x = obj.x; },
@@ -107,7 +122,7 @@ test('kit.tween ignores invalid inputs', () => {
   assert.equal(r.ctx.__x, 10, 'no change from invalid tweens');
 });
 
-test('kit.tween caps active tweens at 50', () => {
+test('kit.tween keeps at most 50 tweens, dropping the oldest', () => {
   const code = `const objs = [];
     for (let i = 0; i < 100; i++) objs.push({ x: 0 });
     const game = {
@@ -121,7 +136,7 @@ test('kit.tween caps active tweens at 50', () => {
     };`;
   const r = runGame(code, { frames: 5 });
   assert.equal(r.error, null);
-  assert.ok(r.ctx.__moving <= 50, `capped at 50: ${r.ctx.__moving}`);
+  assert.equal(r.ctx.__moving, 50, `the newest 50 move: ${r.ctx.__moving}`);
 });
 
 test('kit.tween supports multiple easing types', () => {

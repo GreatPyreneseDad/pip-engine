@@ -12,7 +12,7 @@ const game = {
     }
     for (const s of stars) {
       if (!s.collected && kit.pointer.pressed && kit.dist(kit.pointer.x, kit.pointer.y, s.x, s.y) < 50) {
-        s.collected = true;
+        s.collected = true; s.gone = kit.t + 0.6;
         score++;
         kit.sound('magic');
         kit.puff(s.x, s.y, ['#ffd84d', '#ff6b9d'], 15);
@@ -20,13 +20,13 @@ const game = {
         if (score % 5 === 0) kit.win();
       }
     }
-    stars = stars.filter(s => s.y < H + 100);
+    stars = stars.filter(s => !(s.collected && kit.t > s.gone)); // collected stars leave, so new ones keep falling
   },
   draw() {
     kit.bg('#1a1a2e', '#16213e');
     for (const s of stars) {
       if (!s.collected) kit.item('star', s.x, s.y, 80);
     }
-    kit.text(score, W / 2, 80, 64, '#ffd84d', 'center');
+    kit.text(score, W / 2, 160, 64, '#ffd84d', 'center'); // below the button strip (top 120 px)
   },
 };
