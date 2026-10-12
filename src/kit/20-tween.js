@@ -9,6 +9,7 @@
 
 (function() {
   const easeFns = {
+    linear: function(t) { return t; },
     backOut: function(t, overshoot) {
       if (overshoot === undefined) overshoot = 1.70158;
       return --t * t * ((overshoot + 1) * t + overshoot) + 1;
@@ -51,12 +52,11 @@
     }
   };
 
+  // Unknown or misspelled names fall back to linear: a typo must never freeze a child's game.
   kit.ease = function(name, t) {
-    if (typeof name !== 'string' || typeof t !== 'number' || isNaN(t)) return 0;
-    const fn = easeFns[name];
-    if (!fn) return 0;
-    const clamped = Math.max(0, Math.min(1, t));
-    return fn(clamped);
+    if (typeof t !== 'number' || isNaN(t)) return 0;
+    const fn = (typeof name === 'string' && easeFns[name]) || easeFns.linear;
+    return fn(Math.max(0, Math.min(1, t)));
   };
 
   const activeTweens = [];
@@ -66,8 +66,7 @@
     if (!obj || typeof obj !== 'object') return;
     if (!props || typeof props !== 'object') return;
     if (typeof seconds !== 'number' || isNaN(seconds) || seconds <= 0) return;
-    if (ease === undefined) ease = 'sineInOut';
-    if (typeof ease !== 'string') return;
+    if (typeof ease !== 'string' || !easeFns[ease]) ease = 'sineInOut';
 
     const start = {};
     const delta = {};
@@ -81,7 +80,15 @@
     }
     if (!valid) return;
 
-    if (activeTweens.length >= MAX_TWEENS) return;
+    // A new tween on the same property wins: the old tween lets go of it (no tug-of-war jitter).
+    for (let i = activeTweens.length - 1; i >= 0; i--) {
+      const old = activeTweens[i];
+      if (old.obj !== obj) continue;
+      for (const key in delta) delete old.delta[key];
+      if (Object.keys(old.delta).length === 0) activeTweens.splice(i, 1);
+    }
+    // Full: the oldest tween gives way, so the newest thing the child did always animates.
+    if (activeTweens.length >= MAX_TWEENS) activeTweens.shift();
 
     const tween = { obj, start, delta, ease, duration: seconds, elapsed: 0 };
     activeTweens.push(tween);

@@ -1,6 +1,6 @@
 {
   "name": "pip-engine",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A tiny, kid-safe 2D game engine that an AI writes games against. Grown by CERATA.",
   "type": "module",
   "license": "MIT",
