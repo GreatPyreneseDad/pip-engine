@@ -58,7 +58,7 @@ export function runGame(code, { frames = 60, width = 390, height = 800, taps = [
   const run = (src, name) => new vm.Script(src, { filename: name }).runInContext(context);
   run(SOURCES.lib, 'lib.js');
   run(SOURCES.runtime, 'runtime.js');
-  run('globalThis.kit = kit; globalThis.__parts = parts;', 'expose.js');
+  run('globalThis.kit = kit; globalThis.__parts = parts; globalThis.updateTweens = updateTweens;', 'expose.js');
   run(`var __SRC = ${JSON.stringify(pre + '\n;\n' + code)};`, 'game.js');
   run(SOURCES.loop, 'loop.js');
 
