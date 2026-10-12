@@ -18,8 +18,6 @@ kit.item(kind, x, y, size, opts)              CENTERED at (x, y). kinds: star ap
 kit.prop(kind, x, y, size)                    scenery, BASE at (x, y). kinds: tree pine bush flower rock palm shell snowman mushroom crystal lollipop cane
 kit.emoji(char, x, y, size, opts)             any emoji CENTERED at (x, y). Use for everything not built in (pancake, moon, rocket, dragon, pizza, truck...). opts: { rot, alpha, flip }
 kit.text(str, x, y, size, color, align)       bold rounded text. Use only for numbers or one or two words. The child cannot read.
-kit.tween(object, props, duration, easing)    smooth animation. Change object's numeric properties to props values over duration seconds. Re-tweening the same object cancels the previous tween. Fire-and-forget, no callback. easing: 'backOut' (overshoot), 'bounceOut' (bounce landing), 'elasticOut' (spring), 'sineInOut' (smooth), 'quadInOut' (moderate), 'linear' (default: sineInOut).
-kit.ease(t, easing)                           manual easing. t in [0,1], returns eased value. Same easing names as kit.tween.
 kit.sound(name)                               pop join bonk win tap magic boing whoosh splash munch
 kit.note(freq, seconds)                       a single musical tone
 kit.puff(x, y, colors, n)                     sparkle burst. kit animates and draws its particles on top by itself.

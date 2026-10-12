@@ -1,43 +1,22 @@
-# CLASSIC kit (gen 1)
+# CLASSIC · kit · gen 1
 
-The pip-engine kit as shipped before the gen 2 tween trial. This record pins the behaviour that EXPERIMENTAL must not break.
+**Branch**: CLASSIC
+**Domain**: kit (the API games are written against)
+**Generation**: 1
+**Created**: extracted verbatim from Maple's World `public/genie-maker/index.html` (maples-world @ c072f06)
+**Status**: BASELINE
 
 ## Capabilities
+- Contract: `const game = { init, update(dt), draw }`; dt ≤ 0.05 s; full redraw each frame
+- Drawing: `kit.bg`, `kit.sprite` (29 hand-drawn characters, walk/flap animation), `kit.item`, `kit.prop`, `kit.emoji`, `kit.text`
+- Feedback: `kit.sound` (10 named sounds, host-played), `kit.note`, `kit.puff` (≤ 400 particles), `kit.shake`, `kit.say`, `kit.win`
+- Input: one pointer (`down`, `pressed`, `released` one-frame edges)
+- Helpers: `rand`, `pick`, `clamp`, `dist`, `lerp`
+- Safety: sealed srcdoc frame with CSP `default-src 'none'`; errors posted, never thrown; runaway-frame guard; sound throttle 4/frame; win and say debounced
 
-- **Drawing**: `kit.bg`, `kit.sprite`, `kit.item`, `kit.prop`, `kit.emoji`, `kit.text`
-- **Input**: `kit.pointer` (x, y, down, pressed, released)
-- **Audio**: `kit.sound`, `kit.note`, `kit.say`
-- **Effects**: `kit.puff`, `kit.shake`, `kit.win`
-- **Utilities**: `kit.rand`, `kit.pick`, `kit.clamp`, `kit.dist`, `kit.lerp`
-- **Time**: `kit.t`
+## Pinned by
+`tests/kit.test.mjs` (14 tests) and `tests/examples.test.mjs`. CERATA treats every one of these as CLASSIC:
+a consume that turns one red fails its trial.
 
-## Behaviour
-
-- Sprites are drawn with optional flip, rotation, alpha, and animation time.
-- Pointer pressed/released last exactly one frame.
-- Sound and note are throttled to 4 per frame.
-- Puff particles cap at 400 and expire after 0.5-1.1 seconds.
-- Win is debounced (2 seconds), say is rate-limited (5 seconds).
-- Errors are reported, not thrown. Runaway frames (>400ms) are caught.
-- Games run at up to 60fps with dt capped at 0.05s.
-- No tweening or easing capability exists.
-
-## Tests
-
-All tests in `tests/kit.test.mjs` must stay green. 11 tests cover:
-- Valid game boot and ready message
-- Contract enforcement (game object shape)
-- Error reporting (syntax, runtime, runaway frames)
-- Drawing tolerance to junk input
-- Sound/note throttling
-- Particle cap and expiry
-- Win debounce and say rate limit
-- Pointer pressed/released single-frame behaviour
-- Helper functions (clamp, lerp, dist, pick, rand)
-- Parts (pre) loading before game code
-- frameDoc XSS safety
-- Every kit function documented in contract
-
-## Evaluation
-
-No frame-time or memory metrics exist. Games are written in 80-320 lines and run smoothly on phones at 60fps. Manual animation uses `kit.lerp` in update loops.
+## Known gaps (the hunt list)
+No tweening/easing · no collision helpers · no multi-touch, drag or swipe · particles are one style · sounds are a fixed set of 10 · no grid/tile layouts · no timers or sequences. See `CERATA_TARGETS.md`.
