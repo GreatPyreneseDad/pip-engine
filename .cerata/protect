@@ -1,0 +1,9 @@
+# Engine core: read-only to CERATA. New capabilities go in src/kit/ (see src/kit/README.md).
+src/lib.js
+src/runtime.js
+src/loop.js
+src/frame.mjs
+scripts/*
+dist/*
+package.json
+src/kit/README.md

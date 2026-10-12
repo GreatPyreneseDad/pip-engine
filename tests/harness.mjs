@@ -7,15 +7,22 @@
    r.error    the first error message posted, or null
    r.ctx      the vm context: r.ctx.kit, r.ctx.__parts (engine globals)               */
 
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import vm from 'node:vm';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+/** runtime.js followed by every kit plugin in src/kit/ (sorted). Same rule as scripts/build.mjs. */
+export function runtimeSource(dir = root) {
+  const kitDir = join(dir, 'src/kit');
+  const plugins = existsSync(kitDir) ? readdirSync(kitDir).filter(f => f.endsWith('.js')).sort() : [];
+  return [readFileSync(join(dir, 'src/runtime.js'), 'utf8'),
+    ...plugins.map(f => `/* ---------- kit plugin: src/kit/${f} ---------- */\n` + readFileSync(join(kitDir, f), 'utf8'))].join('\n;\n');
+}
 export const SOURCES = {
   lib: readFileSync(join(root, 'src/lib.js'), 'utf8'),
-  runtime: readFileSync(join(root, 'src/runtime.js'), 'utf8'),
+  runtime: runtimeSource(),
   loop: readFileSync(join(root, 'src/loop.js'), 'utf8'),
 };
 

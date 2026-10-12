@@ -4,11 +4,11 @@ pip-engine grows by predation. Each generation below is one `/cerata consume` on
 Prey come from GitHub's [game-engines collection](https://github.com/collections/game-engines).
 Paths and licenses were checked on 2026-10-11, and the coherence scores are CERATA hunts from the same day.
 
-**The body's DNA** (repeat the gist in every consume's focus note):
+**The body's DNA.** CERATA reads the full rules from `.cerata/guide.md` on every consume. In short:
 plain JavaScript, no imports, one sealed canvas frame, phones first, one finger, a child of 2 to 8 who cannot
-lose and cannot read. Every new capability is a `kit.*` function documented in `api/kit.md` in the same voice
-(the model only uses what the contract names). Pure logic goes in its own testable file under `src/`;
-`src/runtime.js` only wires it into `kit`. Anything that makes sound or speech is posted to the host.
+lose and cannot read. Every new capability is one plugin file in `src/kit/` that adds a `kit.*` function, documented in
+`api/kit.md` in the same voice (the model only uses what the contract names). The core (`src/lib.js`,
+`src/runtime.js`, `src/loop.js`) is read-only to CERATA (`.cerata/protect`). Anything that makes sound or speech is posted to the host.
 
 | Gen | Capability | Prey (license, coherence) | Files | Becomes |
 |---|---|---|---|---|
@@ -32,7 +32,7 @@ PhysicsJS has no license file, so CERATA refuses it until a human verifies the l
 Open one issue per generation, then comment (generation 2 shown):
 
 ```
-/cerata consume phaserjs/phaser src/math/easing/back/Out.js src/math/easing/bounce/Out.js src/math/easing/elastic/Out.js src/math/easing/sine/InOut.js src/math/easing/quadratic/InOut.js -- gen 2: kit.tween and kit.ease for a 2 to 8 year old's touch games. Pure easing in src/ease.js, kit wiring in src/runtime.js, document both in api/kit.md, add an example in examples/.
+/cerata consume phaserjs/phaser src/math/easing/back/Out.js src/math/easing/bounce/Out.js src/math/easing/elastic/Out.js src/math/easing/sine/InOut.js src/math/easing/quadratic/InOut.js -- gen 2: kit.tween(obj, props, seconds, ease) and kit.ease(name, t) as one plugin src/kit/20-tween.js
 ```
 
 CERATA will run `tests/*.test.mjs` before and after. Any CLASSIC test that goes red fails the trial.

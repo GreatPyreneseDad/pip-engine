@@ -62,6 +62,9 @@ npm test          # headless: the real engine in a Node vm against a fake canvas
 npm run build     # dist/pip-engine.mjs (CI rebuilds it on main)
 ```
 
+New capabilities are **kit plugins**: one file in `src/kit/` each, loaded after the runtime, with per-frame work
+registered through `kit._onTick`. See [`src/kit/README.md`](src/kit/README.md). The core files are read-only to CERATA.
+
 `tests/harness.mjs` runs any game for N frames with scripted taps and returns what it posted and drew.
 That harness is how CERATA proves a trial: the CLASSIC tests must stay green.
 

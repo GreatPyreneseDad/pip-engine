@@ -1,20 +1,26 @@
 // Build the two distributions from src/ and api/. No dependencies. Usage: node scripts/build.mjs
 //   dist/pip-engine.mjs  ES module   (bundlers, Deno / edge functions, Node)
 //   dist/pip-engine.js   classic script that sets globalThis.PIP_ENGINE (plain <script src> hosts)
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = p => readFileSync(join(root, p), 'utf8');
 const pkg = JSON.parse(read('package.json'));
+// runtime.js followed by every kit plugin in src/kit/ (sorted). tests/harness.mjs uses the same rule.
+function runtimeSource() {
+  const kitDir = join(root, 'src/kit');
+  const plugins = existsSync(kitDir) ? readdirSync(kitDir).filter(f => f.endsWith('.js')).sort() : [];
+  return [read('src/runtime.js'), ...plugins.map(f => `/* ---------- kit plugin: src/kit/${f} ---------- */\n` + read(`src/kit/${f}`))].join('\n;\n');
+}
 const contract = read('api/kit.md');
 const fenced = contract.match(/```text\n([\s\S]*?)\n```/);
 if (!fenced) throw new Error('api/kit.md must contain the contract in a ```text block');
 const strings = {
   VERSION: pkg.version,
   LIB: read('src/lib.js'),
-  RUNTIME: read('src/runtime.js'),
+  RUNTIME: runtimeSource(),
   LOOP: read('src/loop.js'),
   CONTRACT: contract,
   CONTRACT_PROMPT: fenced[1],   // the exact text to paste into the model's system prompt

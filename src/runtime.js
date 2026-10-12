@@ -41,3 +41,6 @@ let paused = false, dead = false, frames = 0, lastT = 0;
 addEventListener('message', e => { if (e.source === parent && e.data && e.data.gm) { if (e.data.type === 'pause') paused = !!e.data.on; } });
 function fail(e) { if (dead) return; dead = true; post({ type: 'error', message: String(e && e.message || e).slice(0, 300), stack: String(e && e.stack || '').slice(0, 400), frames }); }
 
+/* ---------- extension point: kit plugins (src/kit/*.js) register per-frame work here ---------- */
+const TICKS = [];
+kit._onTick = fn => { if (typeof fn === 'function' && TICKS.length < 32) TICKS.push(fn); };

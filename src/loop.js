@@ -8,7 +8,7 @@
     kit.t += dt; sounds = 0; const t0 = performance.now();
     try { ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.globalAlpha = 1; ctx.fillStyle = '#2a1f5c'; ctx.fillRect(0, 0, W, H);
       if (shakeAmt > 0.3) { ctx.translate((Math.random() - 0.5) * shakeAmt * 2, (Math.random() - 0.5) * shakeAmt * 2); shakeAmt *= Math.pow(0.02, dt); } else shakeAmt = 0;
-      ctx.save(); game.update(dt); game.draw(); ctx.restore();
+      ctx.save(); game.update(dt); for (let i = 0; i < TICKS.length; i++) TICKS[i](dt); game.draw(); ctx.restore();
     } catch (e) { return fail(e); }
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.globalAlpha = 1;
     for (let i = parts.length - 1; i >= 0; i--) { const p = parts[i]; p.life -= dt; if (p.life <= 0) { parts.splice(i, 1); continue; } p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 260 * dt; ctx.globalAlpha = Math.min(1, p.life * 2.2); ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, TAU); ctx.fill(); }
