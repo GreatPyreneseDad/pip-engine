@@ -1,0 +1,41 @@
+{
+  "url": "https://github.com/phaserjs/phaser.git",
+  "commit": "02d8931b626d9764c133cbb3fbf99966c03c757c",
+  "timestamp": "2026-10-12T00:30:49+00:00",
+  "coherence": {
+    "psi": 0.9,
+    "rho": 0.65,
+    "q": 0.5,
+    "f": 1.0,
+    "coherence": 2.927
+  },
+  "viability": {
+    "viability": "PRIME_PREY",
+    "recommendation": "Immediate hunt authorized. High coherence, clean architecture.",
+    "proceed": true,
+    "warnings": []
+  },
+  "license": {
+    "spdx": "MIT",
+    "file": "LICENSE.md",
+    "consumable": true,
+    "note": "MIT: permissive, safe to consume with attribution"
+  },
+  "signals": {
+    "stars": 40456,
+    "forks": 7165,
+    "open_issues": 166,
+    "archived": false,
+    "days_since_push": 51,
+    "api_license": "MIT",
+    "description": "Phaser is a fun, free and fast 2D game framework for making HTML5 games for desktop and mobile web browsers, supporting Canvas and WebGL rendering.",
+    "default_branch": "master"
+  },
+  "consumed": [
+    "src/math/easing/back/Out.js",
+    "src/math/easing/bounce/Out.js",
+    "src/math/easing/elastic/Out.js",
+    "src/math/easing/sine/InOut.js",
+    "src/math/easing/quadratic/InOut.js"
+  ]
+}

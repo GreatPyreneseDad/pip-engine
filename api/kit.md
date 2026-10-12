@@ -24,5 +24,7 @@ kit.puff(x, y, colors, n)                     sparkle burst. kit animates and dr
 kit.shake(amount)                             brief screen shake, amount about 4 to 12
 kit.say(text)                                 Pip says up to 10 words aloud. Use rarely: at big moments only, never every frame.
 kit.win()                                     call ONCE when the child finishes a round: confetti and fanfare. Then start a new, slightly different round yourself about 3 seconds later.
+kit.tween(obj, props, seconds, ease)          smooth animation. Changes obj's properties to match props over seconds. ease: 'backOut' 'bounceOut' 'elasticOut' 'sineInOut' 'quadInOut' (default 'sineInOut'). Example: kit.tween(star, {y: 100, x: 200}, 1.5, 'bounceOut')
+kit.ease(name, t)                             easing curve value at time t (0 to 1). Same names as tween. Returns 0 to 1.
 kit.rand(a, b)  kit.pick(array)  kit.clamp(v, a, b)  kit.dist(x1, y1, x2, y2)  kit.lerp(a, b, k)
 ```
