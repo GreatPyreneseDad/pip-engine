@@ -32,6 +32,7 @@ kit.color.mix(a, b, t)                        blend two colors (hex, rgb, rgba o
 kit.color.hsl(h, s, l)                        create color from hue (0-360), saturation (0-1), lightness (0-1). Returns CSS rgba() string.
 kit.color.rainbow(t)                          rainbow spectrum color at t (0-1, wraps). Returns CSS rgba() string. Animate with kit.t for cycling rainbow.
 kit.color.alpha(color, a)                     adjust alpha of a color (a: 0-1). Returns CSS rgba() string. Example: kit.color.alpha('#ff0000', 0.5)
+kit.grid(cols, rows, cellSize)                grid for board games (match-3, tic-tac-toe). Returns grid object with: get(c, r) returns cell value or undefined; set(c, r, v) sets cell; cellAt(x, y) returns {c, r} for screen point or null; center(c, r) returns {x, y} screen center of cell or null; forEach(fn) calls fn(value, c, r) for every cell; draw(fn) calls fn(value, x, y, cellSize) for non-empty cells. Max 64×64 cells.
 kit.rand(a, b)  kit.pick(array)  kit.clamp(v, a, b)  kit.dist(x1, y1, x2, y2)  kit.lerp(a, b, k)
 ```
 
