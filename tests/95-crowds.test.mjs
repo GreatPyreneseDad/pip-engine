@@ -288,7 +288,7 @@ test('kit.pairs does not modify items permanently', () => {
   };`;
   const r = runGame(code, { frames: 2 });
   assert.equal(r.error, null);
-  assert.deepEqual(r.ctx.__keys, ['r', 'x', 'y'], 'no __hshgId left behind');
+  assert.equal(JSON.stringify(r.ctx.__keys), JSON.stringify(['r', 'x', 'y']), 'no __hshgId left behind');
 });
 
 test('kit.near works with large radius', () => {
