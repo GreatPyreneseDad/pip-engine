@@ -31,7 +31,14 @@
   kit.touch = coarse;
   kit.touchControls = m => { if (['auto', 'stick', 'buttons', 'none'].includes(m)) tmode = m; };
   Object.defineProperty(kit, 'safeBottom', { get: () => (coarse && tmode !== 'none') ? 170 : 0 });
-  const stick = { on: false, id: -1, ox: 0, oy: 0, kx: 0, ky: 0, x: 0, y: 0 }, R = 54, DEAD = 10;
+  /* the stick lives in a pad in the bottom-left corner; taps anywhere else stay the game's (kit.pointer) */
+  const stick = { on: false, id: -1, ox: 0, oy: 0, kx: 0, ky: 0, x: 0, y: 0 }, R = 54, DEAD = 10, PAD_W = 210, PAD_H = 230;
+  let nTouch = 0; // live finger count from touch events: when it hits 0 everything on screen is released, whatever pointer events were lost
+  function releaseAll() { stick.on = false; stick.id = -1; stick.x = stick.y = 0; stickKeys(); for (const b of BTN) if (b.id >= 0) { b.id = -1; up(b.k); } }
+  const countTouches = e => { nTouch = e && e.touches ? e.touches.length : 0; if (nTouch === 0) releaseAll(); };
+  addEventListener('touchstart', e => { nTouch = e && e.touches ? e.touches.length : 0; }, { passive: true, capture: true });
+  addEventListener('touchend', countTouches, { passive: true, capture: true }); addEventListener('touchcancel', countTouches, { passive: true, capture: true });
+  addEventListener('blur', releaseAll);
   const BTN = [{ k: 'space', label: 'A', dx: 74, dy: 84, r: 40, id: -1 }, { k: 'shift', label: 'B', dx: 158, dy: 138, r: 32, id: -1 }];
   const wantStick = () => coarse && (tmode === 'auto' || tmode === 'stick'), wantBtns = () => coarse && (tmode === 'auto' || tmode === 'buttons');
   kit.axis = () => stick.on ? { x: stick.x, y: stick.y } : ({ x: (kit.key('right') || kit.key('d') ? 1 : 0) - (kit.key('left') || kit.key('a') ? 1 : 0), y: (kit.key('down') || kit.key('s') ? 1 : 0) - (kit.key('up') || kit.key('w') ? 1 : 0) });
@@ -40,8 +47,8 @@
   function hitBtn(x, y) { if (!wantBtns()) return null; for (const b of BTN) if (Math.hypot(x - (W - b.dx), y - (H - b.dy)) < b.r + 12) return b; return null; }
   const stop = e => { if (e.stopImmediatePropagation) e.stopImmediatePropagation(); if (e.preventDefault) e.preventDefault(); };
   function tDown(e) { if (!e || e.pointerType !== 'touch' || tmode === 'none') return; const b = hitBtn(e.clientX, e.clientY);
-    if (b) { if (b.id < 0) { b.id = e.pointerId; down(b.k); } stop(e); return; }
-    if (wantStick() && !stick.on && e.clientX < W * 0.5 && e.clientY > H * 0.35) { stick.on = true; stick.id = e.pointerId; stick.ox = stick.kx = e.clientX; stick.oy = stick.ky = e.clientY; stick.x = stick.y = 0; stop(e); } }
+    if (b) { if (b.id < 0 || nTouch === 0) { b.id = e.pointerId; down(b.k); } stop(e); return; }
+    if (wantStick() && (!stick.on || nTouch === 0) && e.clientX < PAD_W && e.clientY > H - PAD_H) { stick.on = true; stick.id = e.pointerId; stick.ox = stick.kx = e.clientX; stick.oy = stick.ky = e.clientY; stick.x = stick.y = 0; stop(e); } }
   function tMove(e) { if (!e) return; if (e.pointerId !== stick.id) { if (BTN.some(b => b.id === e.pointerId) && e.stopImmediatePropagation) e.stopImmediatePropagation(); return; } let dx = e.clientX - stick.ox, dy = e.clientY - stick.oy; const d = Math.hypot(dx, dy); if (d > R) { dx *= R / d; dy *= R / d; }
     stick.kx = stick.ox + dx; stick.ky = stick.oy + dy; const m = Math.max(0, d - DEAD) / (R - DEAD); const dd = d || 1; stick.x = kit.clamp(dx / dd * Math.min(1, m), -1, 1); stick.y = kit.clamp(dy / dd * Math.min(1, m), -1, 1); stickKeys(); if (e.stopImmediatePropagation) e.stopImmediatePropagation(); }
   function tUp(e) { if (!e) return; if (e.pointerId === stick.id) { stick.on = false; stick.id = -1; stick.x = stick.y = 0; stickKeys(); if (e.stopImmediatePropagation) e.stopImmediatePropagation(); return; } for (const b of BTN) if (b.id === e.pointerId) { b.id = -1; up(b.k); if (e.stopImmediatePropagation) e.stopImmediatePropagation(); } }
@@ -50,7 +57,7 @@
     const ring = (x, y, r, c, w) => { ctx.strokeStyle = c; ctx.lineWidth = w; ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.stroke(); };
     const disc = (x, y, r, c) => { ctx.fillStyle = c; ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill(); };
     const label = (s, x, y, size, c) => { ctx.font = '600 ' + size + 'px ui-monospace, Menlo, Consolas, monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = c; ctx.fillText(s, x, y); };
-    if (wantStick()) { if (stick.on) { ring(stick.ox, stick.oy, R, 'rgba(255,255,255,.35)', 2); disc(stick.kx, stick.ky, 22, 'rgba(255,255,255,.45)'); } else { ring(90, H - 110, R, 'rgba(255,255,255,.12)', 2); label('MOVE', 90, H - 110, 11, 'rgba(255,255,255,.3)'); } }
+    if (wantStick()) { if (stick.on) { ring(stick.ox, stick.oy, R, 'rgba(255,255,255,.35)', 2); disc(stick.kx, stick.ky, 22, 'rgba(255,255,255,.45)'); } else { ring(100, H - 115, R, 'rgba(255,255,255,.12)', 2); label('MOVE', 100, H - 115, 11, 'rgba(255,255,255,.3)'); } }
     if (wantBtns()) for (const b of BTN) { disc(W - b.dx, H - b.dy, b.r, b.id >= 0 ? 'rgba(255,138,31,.55)' : 'rgba(255,255,255,.14)'); ring(W - b.dx, H - b.dy, b.r, 'rgba(255,255,255,.3)', 2); label(b.label, W - b.dx, H - b.dy, 18, 'rgba(255,255,255,.7)'); }
     ctx.restore(); }
   /* the controls are drawn after the game's draw: the loop brackets each frame in save/restore, so the restore that returns to depth 0 ends the frame */
