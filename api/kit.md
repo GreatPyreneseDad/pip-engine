@@ -18,7 +18,8 @@ kit.item(kind, x, y, size, opts)              CENTERED at (x, y). kinds: star ap
 kit.prop(kind, x, y, size)                    scenery, BASE at (x, y). kinds: tree pine bush flower rock palm shell snowman mushroom crystal lollipop cane
 kit.emoji(char, x, y, size, opts)             any emoji CENTERED at (x, y). Use for everything not built in (pancake, moon, rocket, dragon, pizza, truck...). opts: { rot, alpha, flip }
 kit.text(str, x, y, size, color, align)       bold rounded text. Use only for numbers or one or two words. The child cannot read.
-kit.sound(name)                               pop join bonk win tap magic boing whoosh splash munch
+kit.sound(name)                               pop join bonk win tap magic boing whoosh splash munch laser zap explode coin jump hit powerup blip
+kit.zzfx(params)                              raw ZzFX sound from parameter array (21 numbers). Use kit.sound() for common sounds.
 kit.note(freq, seconds)                       a single musical tone
 kit.puff(x, y, colors, n)                     sparkle burst. kit animates and draws its particles on top by itself.
 kit.shake(amount)                             brief screen shake, amount about 4 to 12
