@@ -28,3 +28,33 @@ kit.tween(obj, props, seconds, ease)          smooth animation. Changes obj's pr
 kit.ease(name, t)                             easing curve value at time t (0 to 1). Same names as tween; unknown names act as 'linear'.
 kit.rand(a, b)  kit.pick(array)  kit.clamp(v, a, b)  kit.dist(x1, y1, x2, y2)  kit.lerp(a, b, k)
 ```
+
+## The floor contract
+
+The second block is the extra surface MacT Factory's builder (ages 10+) is told about, on top of the block above: a keyboard, on-screen touch controls, plain shapes, meters and noise. It is exported as `FLOOR_PROMPT`. Pip's games can use these too, but Pip's prompt does not mention them, and touch controls stay off until a game asks.
+
+```text
+INPUT
+kit.key(name)        true while held.  names: left right up down space enter shift esc  and single characters: w a s d e q f r x z ...
+kit.pressed(name)    true for the one frame the key went down.   kit.released(name) likewise.   kit.keys is the Set of names held right now.
+kit.axis()           { x, y } in -1..1 from arrows and WASD together (or the on-screen stick).
+kit.pointer          also has heldFor: seconds the finger or button has been held (charge-up).
+kit.drag             { active, x0, y0, dx, dy, dist, angle }  the current press as a drag from where it started: pull back and release to cast, throw, aim, slingshot.
+kit.angleTo(x1, y1, x2, y2)   kit.approach(v, target, rate, dt)   smooth follow (camera, rod tip, needle).
+kit.touch            true on phones and tablets. kit.touchControls('auto') in init shows a floating stick (left half, bottom) and A/B buttons (bottom right) that feed the same keys: stick = arrows/WASD and kit.axis(), A = space, B = shift. 'stick' or 'buttons' shows one; 'none' (default) shows nothing. Taps elsewhere still drive kit.pointer.
+kit.safeBottom       pixels at the bottom covered by the touch controls (0 when none). Keep the HUD and the action out of that band.
+
+DRAWING
+kit.band(y0, y1, top, bottom)                     horizontal gradient band (sky, water depth, ground).
+kit.rect(x, y, w, h, color, radius)  kit.circle(x, y, r, color)  kit.ellipse(x, y, rx, ry, color, rot)  kit.ring(x, y, r, color, width)  kit.line(x1, y1, x2, y2, color, width)  kit.poly([[x,y],...], color)
+kit.polyline([[x,y],...], color, width)  kit.curve(x1, y1, cx, cy, x2, y2, color, width)  kit.arc(x, y, r, a0, a1, color, width)      rods, lines, ropes, trails, waves.
+kit.radial(x, y, r, innerColor, outerColor)      soft light, glow, fog, sun.    kit.shadow(blur, color, () => {...})   drop shadow around what the function draws.    kit.alpha(a, () => {...})   draw translucent.
+kit.bar(x, y, w, h, frac, color, back)           meter: health, tension, charge.
+kit.label(str, x, y, size, color, align)         small monospace HUD text.
+kit.noise(x, y?)                                 smooth noise 0..1: kit.noise(kit.t * .3) drifts slowly (wind, current); kit.noise(x * .01, kit.t) ripples water. Layer two or three octaves for natural motion.
+kit.wrap(v, lo, hi)                              v jumps to the other edge when it leaves lo..hi.
+
+SCORE
+kit.score(n)      report the current score to the host HUD (call whenever it changes).
+kit.over(score)   call once at game over; the host shows it. Draw your own game-over screen too and restart on space or tap.
+```

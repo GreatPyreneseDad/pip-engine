@@ -45,7 +45,7 @@ function fakeContext2D(calls) {
   });
 }
 
-export function runGame(code, { frames = 60, width = 390, height = 800, taps = [], pre = '', dt = 1 / 60, slowFrame } = {}) {
+export function runGame(code, { frames = 60, width = 390, height = 800, taps = [], events = [], pre = '', dt = 1 / 60, slowFrame } = {}) {
   const posts = [], calls = {}, listeners = {}, docListeners = {};
   let raf = null, now = 0, slow = false;
   const ctx2d = fakeContext2D(calls);
@@ -70,11 +70,14 @@ export function runGame(code, { frames = 60, width = 390, height = 800, taps = [
   run(SOURCES.loop, 'loop.js');
 
   const fire = (type, x, y) => (listeners[type] || []).forEach(f => f({ clientX: x, clientY: y }));
+  // events: [{ frame, type, ...fields }] fired as-is; 'message' events get source = parent so host relays work
+  const fireEvent = ev => (listeners[ev.type] || []).forEach(f => f({ clientX: ev.x, clientY: ev.y, source: ev.type === 'message' ? parentWin : undefined, ...ev }));
   for (let i = 0; i < frames && raf; i++) {
     for (const t of taps) {
       if (t.frame === i) fire('pointerdown', t.x, t.y);
       if (t.frame + (t.hold ?? 2) === i) fire('pointerup', t.x, t.y);
     }
+    for (const ev of events) if (ev.frame === i) fireEvent(ev);
     const f = raf; raf = null;
     now += dt * 1000;
     slow = slowFrame === i;

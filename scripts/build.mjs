@@ -15,15 +15,16 @@ function runtimeSource() {
   return [read('src/runtime.js'), ...plugins.map(f => `/* ---------- kit plugin: src/kit/${f} ---------- */\n` + read(`src/kit/${f}`))].join('\n;\n');
 }
 const contract = read('api/kit.md');
-const fenced = contract.match(/```text\n([\s\S]*?)\n```/);
-if (!fenced) throw new Error('api/kit.md must contain the contract in a ```text block');
+const blocks = [...contract.matchAll(/```text\n([\s\S]*?)\n```/g)].map(m => m[1]);
+if (!blocks.length) throw new Error('api/kit.md must contain the contract in a ```text block');
 const strings = {
   VERSION: pkg.version,
   LIB: read('src/lib.js'),
   RUNTIME: runtimeSource(),
   LOOP: read('src/loop.js'),
   CONTRACT: contract,
-  CONTRACT_PROMPT: fenced[1],   // the exact text to paste into the model's system prompt
+  CONTRACT_PROMPT: blocks[0],   // the exact text to paste into Pip's model prompt
+  FLOOR_PROMPT: blocks[1] || '', // the second block: the extra surface MacT Factory's builder is told about
 };
 const frame = read('src/frame.mjs');
 const header = `/* pip-engine ${pkg.version} · MIT · https://github.com/GreatPyreneseDad/pip-engine
