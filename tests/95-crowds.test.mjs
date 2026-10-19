@@ -121,7 +121,7 @@ test('kit.pairs calls fn for overlapping circles', () => {
   const r = runGame(code, { frames: 2 });
   assert.equal(r.error, null);
   assert.equal(r.ctx.__pairs.length, 1, 'first two overlap, third is far');
-  assert.deepEqual(r.ctx.__pairs[0].sort(), [100, 115]);
+  assert.equal(JSON.stringify(r.ctx.__pairs[0].sort()), JSON.stringify([100, 115]));
 });
 
 test('kit.pairs treats missing r as 0', () => {
