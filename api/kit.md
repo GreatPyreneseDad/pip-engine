@@ -18,7 +18,7 @@ kit.item(kind, x, y, size, opts)              CENTERED at (x, y). kinds: star ap
 kit.prop(kind, x, y, size)                    scenery, BASE at (x, y). kinds: tree pine bush flower rock palm shell snowman mushroom crystal lollipop cane
 kit.emoji(char, x, y, size, opts)             any emoji CENTERED at (x, y). Use for everything not built in (pancake, moon, rocket, dragon, pizza, truck...). opts: { rot, alpha, flip }
 kit.text(str, x, y, size, color, align)       bold rounded text. Use only for numbers or one or two words. The child cannot read.
-kit.sound(name)                               pop join bonk win tap magic boing whoosh splash munch
+kit.sound(name)                               pop join bonk win tap magic boing whoosh splash munch laser zap explode coin jump hit powerup blip
 kit.note(freq, seconds)                       a single musical tone
 kit.puff(x, y, colors, n)                     sparkle burst. kit animates and draws its particles on top by itself.
 kit.burst(kind, x, y, n)                      particle burst of n particles. kinds: confetti smoke bubbles sparkles rain fire. kit animates and draws them on top.
@@ -66,6 +66,10 @@ kit.bar(x, y, w, h, frac, color, back)           meter: health, tension, charge.
 kit.label(str, x, y, size, color, align)         small monospace HUD text.
 kit.noise(x, y?)                                 smooth noise 0..1: kit.noise(kit.t * .3) drifts slowly (wind, current); kit.noise(x * .01, kit.t) ripples water. Layer two or three octaves for natural motion.
 kit.wrap(v, lo, hi)                              v jumps to the other edge when it leaves lo..hi.
+
+SOUND
+kit.zzfx([volume, randomness, frequency, attack, sustain, release, shape, shapeCurve, slide, deltaSlide, pitchJump, pitchJumpTime, repeatTime, noise, modulation, bitCrush, delay, sustainVolume, decay, tremolo, filter])
+                  a custom ZzFX sound (any prefix of the 21 numbers; the rest take defaults). kit.sound(name) already covers laser zap explode coin jump hit powerup blip. At most 4 sounds a frame.
 
 SCORE
 kit.score(n)      report the current score to the host HUD (call whenever it changes).
