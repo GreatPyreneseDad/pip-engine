@@ -1,10 +1,7 @@
 {
   "url": "https://github.com/KilledByAPixel/LittleJS.git",
   "commit": "cdcbef463d889d24dee37f481c2ea5f49bf7fcf5",
-  "timestamp": "2026-10-19T05:21:00+00:00",
-=======
   "timestamp": "2026-10-19T05:20:54+00:00",
->>>>>>> pr18
   "coherence": {
     "psi": 0.9,
     "rho": 0.75,
@@ -35,9 +32,6 @@
     "default_branch": "main"
   },
   "consumed": [
-    "src/engineTileLayer.js"
-=======
     "src/engineParticles.js"
->>>>>>> pr18
   ]
 }
