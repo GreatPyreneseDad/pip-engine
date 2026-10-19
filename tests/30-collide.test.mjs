@@ -173,7 +173,7 @@ test('kit.bounce ignores invalid inputs', () => {
 });
 
 test('kit.bounce works with object without r, w, or h (point)', () => {
-  const code = `const pt = { x: 5, y: 10, vx: -50, vy: -30 };
+  const code = `const pt = { x: -5, y: -10, vx: -50, vy: -30 };
     const bounds = { x: 0, y: 0, w: 400, h: 600 };
     const game = {
       update() {
