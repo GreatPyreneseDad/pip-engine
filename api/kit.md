@@ -33,6 +33,8 @@ kit.color.hsl(h, s, l)                        create color from hue (0-360), sat
 kit.color.rainbow(t)                          rainbow spectrum color at t (0-1, wraps). Returns CSS rgba() string. Animate with kit.t for cycling rainbow.
 kit.color.alpha(color, a)                     adjust alpha of a color (a: 0-1). Returns CSS rgba() string. Example: kit.color.alpha('#ff0000', 0.5)
 kit.grid(cols, rows, cellSize)                grid for board games (match-3, tic-tac-toe). Returns grid object with: get(c, r) returns cell value or undefined; set(c, r, v) sets cell; cellAt(x, y) returns {c, r} for screen point or null; center(c, r) returns {x, y} screen center of cell or null; forEach(fn) calls fn(value, c, r) for every cell; draw(fn) calls fn(value, x, y, cellSize) for non-empty cells. Max 64×64 cells.
+kit.hit(a, b)                                 true if two shapes overlap. Each is {x, y, r} for a circle or {x, y, w, h} for a rectangle. Any mix. Example: kit.hit(ball, paddle) or kit.hit(kit.pointer, {x: star.x, y: star.y, r: 40})
+kit.bounce(o, bounds)                         reflect o's velocity (o.vx, o.vy) when it hits bounds edges and clamp o inside. o is {x, y, vx, vy} and optionally {r} or {w, h}. bounds is {x, y, w, h}. Mutates o. Example: kit.bounce(ball, {x: 0, y: 0, w: W, h: H})
 kit.rand(a, b)  kit.pick(array)  kit.clamp(v, a, b)  kit.dist(x1, y1, x2, y2)  kit.lerp(a, b, k)
 ```
 
