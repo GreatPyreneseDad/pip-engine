@@ -42,3 +42,12 @@ test('kit.approach moves toward the target and never overshoots', () => {
   assert.equal(r.error, null);
   assert.equal(r.ctx.__v[0], 10); assert.equal(r.ctx.__v[1], 5); assert.equal(r.ctx.__v[2], 1);
 });
+
+test('a quick flick reports kit.swipe for one frame; a slow drag does not', () => {
+  const code = `const seen = []; const game = { update() { if (kit.swipe) seen.push(kit.swipe.dir); globalThis.__s = seen; }, draw() {} };`;
+  const quick = runGame(code, { frames: 20, taps: [{ frame: 2, x: 100, y: 400, hold: 6 }], events: [{ frame: 5, type: 'pointermove', x: 100, y: 300 }] });
+  assert.equal(quick.error, null);
+  assert.equal(JSON.stringify(quick.ctx.__s), JSON.stringify(['up']));
+  const slow = runGame(code, { frames: 60, taps: [{ frame: 2, x: 100, y: 400, hold: 40 }], events: [{ frame: 5, type: 'pointermove', x: 300, y: 400 }] });
+  assert.equal(JSON.stringify(slow.ctx.__s), JSON.stringify([]));
+});

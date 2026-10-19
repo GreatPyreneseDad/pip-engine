@@ -53,6 +53,7 @@ kit.pressed(name)    true for the one frame the key went down.   kit.released(na
 kit.axis()           { x, y } in -1..1 from arrows and WASD together (or the on-screen stick).
 kit.pointer          also has heldFor: seconds the finger or button has been held (charge-up).
 kit.drag             { active, x0, y0, dx, dy, dist, angle }  the current press as a drag from where it started: pull back and release to cast, throw, aim, slingshot.
+kit.swipe            null, or for one frame after a quick flick: { dir: 'left'|'right'|'up'|'down', dx, dy, dist }. Lane changes, card tosses, page turns.
 kit.angleTo(x1, y1, x2, y2)   kit.approach(v, target, rate, dt)   smooth follow (camera, rod tip, needle).
 kit.touch            true on phones and tablets. kit.touchControls('auto') in init shows a floating stick (left half, bottom) and A/B buttons (bottom right) that feed the same keys: stick = arrows/WASD and kit.axis(), A = space, B = shift. 'stick' or 'buttons' shows one; 'none' (default) shows nothing. Taps elsewhere still drive kit.pointer.
 kit.safeBottom       pixels at the bottom covered by the touch controls (0 when none). Keep the HUD and the action out of that band.

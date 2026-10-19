@@ -53,7 +53,13 @@ iframe.srcdoc = frameDoc(engine, { pre: partsSource, code: gameSource });
 Pin a version, and ship the page's engine and the model's contract together. A game written against a
 newer `kit.*` will crash on an older runtime.
 
-The host listens for `postMessage` events from the frame: `ready`, `error`, `sound`, `note`, `say` and `win`.
+The host listens for `postMessage` events from the frame: `ready`, `error`, `sound`, `note`, `say`, `win`,
+`zzfx` (play it with the exported `playZzfx(params)`), `score` and `over`.
+
+A second, optional contract block, `FLOOR_PROMPT`, documents the surface written for older builders
+(MacT Factory, ages 10+): keyboard, on-screen touch controls, plain shapes, meters, noise, raw ZzFX, score.
+Pip's prompt does not include it, and touch controls stay off until a game calls `kit.touchControls('auto')`.
+Hosts that relay keyboard focus post `{ gm: 1, type: 'key', key, down }` into the frame.
 
 ## Develop
 

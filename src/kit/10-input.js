@@ -20,6 +20,7 @@
   /* pointer extras: hold time, drag vector, angles */
   const ptr = kit.pointer; let downAt = -1, lastT = 0;
   kit.drag = { active: false, x0: 0, y0: 0, dx: 0, dy: 0, dist: 0, angle: 0 };
+  kit.swipe = null; // { dir, dx, dy, dist } for the one frame after a quick flick, else null
   ptr.heldFor = 0;
   kit.angleTo = (x1, y1, x2, y2) => Math.atan2(y2 - y1, x2 - x1);
   kit.approach = (v, target, rate, dt) => { v = +v || 0; target = +target || 0; const k = Math.min(1, Math.max(0, (+rate || 0) * (+dt || 0))); return v + (target - v) * k; };
@@ -58,9 +59,9 @@
   ctx.restore = function () { const r = _restore(); if (depth > 0) depth--; if (depth === 0 && armed) { armed = false; try { drawControls(); } catch (e) {} } return r; };
 
   kit._onTick(dt => {
-    fresh.clear(); lifted.clear(); armed = true;
+    fresh.clear(); lifted.clear(); armed = true; kit.swipe = null;
     lastT += dt; if (ptr.pressed) { downAt = lastT; kit.drag.x0 = ptr.x; kit.drag.y0 = ptr.y; }
     if (ptr.down && downAt >= 0) { kit.drag.active = true; kit.drag.dx = ptr.x - kit.drag.x0; kit.drag.dy = ptr.y - kit.drag.y0; kit.drag.dist = Math.hypot(kit.drag.dx, kit.drag.dy); kit.drag.angle = Math.atan2(kit.drag.dy, kit.drag.dx); ptr.heldFor = lastT - downAt; }
-    else { if (!ptr.down) { kit.drag.active = false; downAt = -1; } ptr.heldFor = 0; }
+    else { if (!ptr.down) { if (kit.drag.active && downAt >= 0 && lastT - downAt < 0.45 && kit.drag.dist > 36) { const d = kit.drag; kit.swipe = { dir: Math.abs(d.dx) > Math.abs(d.dy) ? (d.dx > 0 ? 'right' : 'left') : (d.dy > 0 ? 'down' : 'up'), dx: d.dx, dy: d.dy, dist: d.dist }; } kit.drag.active = false; downAt = -1; } ptr.heldFor = 0; }
   });
 })();
