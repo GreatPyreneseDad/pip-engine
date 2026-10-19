@@ -21,6 +21,8 @@ kit.text(str, x, y, size, color, align)       bold rounded text. Use only for nu
 kit.sound(name)                               pop join bonk win tap magic boing whoosh splash munch
 kit.note(freq, seconds)                       a single musical tone
 kit.puff(x, y, colors, n)                     sparkle burst. kit animates and draws its particles on top by itself.
+kit.burst(kind, x, y, n)                      particle burst of n particles. kinds: confetti smoke bubbles sparkles rain fire. kit animates and draws them on top.
+kit.emit(kind, x, y, seconds)                 continuous particle emitter that stops after seconds. same kinds as burst.
 kit.shake(amount)                             brief screen shake, amount about 4 to 12
 kit.say(text)                                 Pip says up to 10 words aloud. Use rarely: at big moments only, never every frame.
 kit.win()                                     call ONCE when the child finishes a round: confetti and fanfare. Then start a new, slightly different round yourself about 3 seconds later.
