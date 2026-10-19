@@ -4,6 +4,11 @@ pip-engine grows by predation. Each generation below is one `/cerata consume` on
 Prey come from GitHub's [game-engines collection](https://github.com/collections/game-engines).
 Paths and licenses were checked on 2026-10-11, and the coherence scores are CERATA hunts from the same day.
 
+**Status (v0.3.0, 2026-10-19):** generations 2, 3, 4, 5, 7, 8, 9 and 10 have been consumed and merged
+(`src/kit/20-tween.js` `30-collide.js` `40-zzfx.js` `50-particles.js` `70-timers.js` `80-grid.js` `90-color.js` `95-crowds.js`).
+Generation 6 (gestures) failed its trial twice; `kit.drag` and `kit.swipe` were written by hand in `src/kit/10-input.js` instead.
+`10-input.js` and `12-draw.js` are the hand-written floor plugins (keyboard, touch controls, shapes) documented in the second block of `api/kit.md`.
+
 **The body's DNA.** CERATA reads the full rules from `.cerata/guide.md` on every consume. In short:
 plain JavaScript, no imports, one sealed canvas frame, phones first, one finger, a child of 2 to 8 who cannot
 lose and cannot read. Every new capability is one plugin file in `src/kit/` that adds a `kit.*` function, documented in

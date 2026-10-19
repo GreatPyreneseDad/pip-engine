@@ -1,0 +1,37 @@
+{
+  "url": "https://github.com/lance-gg/lance.git",
+  "commit": "fd9bc5dce93f59684acc0c862a3a7849b993f65a",
+  "timestamp": "2026-10-19T05:21:03+00:00",
+  "coherence": {
+    "psi": 0.9,
+    "rho": 0.5,
+    "q": 0.5,
+    "f": 1.0,
+    "coherence": 2.781
+  },
+  "viability": {
+    "viability": "PRIME_PREY",
+    "recommendation": "Immediate hunt authorized. High coherence, clean architecture.",
+    "proceed": true,
+    "warnings": []
+  },
+  "license": {
+    "spdx": "Apache-2.0",
+    "file": "LICENSE",
+    "consumable": true,
+    "note": "Apache-2.0: permissive, safe to consume with attribution"
+  },
+  "signals": {
+    "stars": 1721,
+    "forks": 166,
+    "open_issues": 36,
+    "archived": false,
+    "days_since_push": 890,
+    "api_license": "Apache-2.0",
+    "description": "Multiplayer game server based on Node.JS",
+    "default_branch": "master"
+  },
+  "consumed": [
+    "src/physics/SimplePhysics/HSHGCollisionDetection.ts"
+  ]
+}

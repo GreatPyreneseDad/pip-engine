@@ -1,0 +1,38 @@
+{
+  "url": "https://github.com/KilledByAPixel/LittleJS.git",
+  "commit": "cdcbef463d889d24dee37f481c2ea5f49bf7fcf5",
+  "timestamp": "2026-10-19T05:25:53+00:00",
+  "coherence": {
+    "psi": 0.9,
+    "rho": 0.75,
+    "q": 0.5,
+    "f": 1.0,
+    "coherence": 3.024
+  },
+  "viability": {
+    "viability": "PRIME_PREY",
+    "recommendation": "Immediate hunt authorized. High coherence, clean architecture.",
+    "proceed": true,
+    "warnings": []
+  },
+  "license": {
+    "spdx": "MIT",
+    "file": "LICENSE",
+    "consumable": true,
+    "note": "MIT: permissive, safe to consume with attribution"
+  },
+  "signals": {
+    "stars": 4303,
+    "forks": 236,
+    "open_issues": 3,
+    "archived": false,
+    "days_since_push": 3,
+    "api_license": "MIT",
+    "description": "Tiny fast 2D/3D HTML5 game engine with many features and no dependencies.",
+    "default_branch": "main"
+  },
+  "consumed": [
+    "src/engineAudio.js",
+    "src/engineParticles.js"
+  ]
+}
