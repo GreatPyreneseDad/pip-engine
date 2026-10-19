@@ -26,5 +26,7 @@ kit.say(text)                                 Pip says up to 10 words aloud. Use
 kit.win()                                     call ONCE when the child finishes a round: confetti and fanfare. Then start a new, slightly different round yourself about 3 seconds later.
 kit.tween(obj, props, seconds, ease)          smooth animation. Changes obj's properties to match props over seconds. ease: 'backOut' 'bounceOut' 'elasticOut' 'sineInOut' 'quadInOut' 'linear' (default 'sineInOut'). A new tween on the same property replaces the old one. Example: kit.tween(star, {y: 100, x: 200}, 1.5, 'bounceOut')
 kit.ease(name, t)                             easing curve value at time t (0 to 1). Same names as tween; unknown names act as 'linear'.
+kit.after(seconds, fn)                        call fn once after seconds of game time. Returns handle with cancel() to stop it before it fires.
+kit.every(seconds, fn)                        call fn repeatedly every seconds of game time. Returns handle with cancel() to stop it.
 kit.rand(a, b)  kit.pick(array)  kit.clamp(v, a, b)  kit.dist(x1, y1, x2, y2)  kit.lerp(a, b, k)
 ```
