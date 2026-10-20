@@ -6,6 +6,9 @@ on:
     paths: ['forest/study/**']
 permissions:
   contents: write
+concurrency:
+  group: forest
+  cancel-in-progress: false
 jobs:
   ingest:
     runs-on: ubuntu-latest
@@ -27,5 +30,6 @@ jobs:
             git config user.email forest@users.noreply.github.com
             git add forest/study/INDEX.md
             git commit -m "forest: index"
-            git push
+            git pull --rebase origin main || true
+            git push || echo "index push lost a race with a newer push; the next run will catch it"
           fi
