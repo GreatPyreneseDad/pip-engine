@@ -21,6 +21,10 @@ round is paced. Big 3D worlds and RPG systems come later, as design notes the li
 | 13 | Metroid Prime recomp (complete) | ethannicholas/prime-recomp | Lock-on and scan, room-based world, ability gating | design note (3D; later) |
 | 14 | Chrono Trigger reimplementation | zdiemer/chrono-trigger-reimplemented | Active-time battle pacing, tech combos | design note: turn pacing |
 
+## Wave one and two (2026-10-19 night): 61 notes
+Crews covered: Sonic, SM64 (camera, action states), Ocarina (Z-targeting, fishing), DKR + CTR (kart, drift/boost, AI), Columns, SotN (loot, stats, hits), Mega Man 2 labelled (patterns, player hit, weapons, bosses) and the static recomp (object pool), Contra (director, guns), Space Invaders, Space Cadet Pinball, Pokémon Red (catch, damage, encounters, exp), Advance Wars DS, Harvest Moon 64, Animal Crossing (fishing, economy, villagers), Fire Emblem 8 (hit/crit, growth, AI), EarthBound (rolling HP, battle), Kirby's Dream Land (inhale/float, patterns), Wario Land 3, Pokémon Pinball, Link's Awakening (rooms, hearts, sword, enemies, verbs), ALttP dash, SMB1 (physics, enemies/economy), NSMB, Game Boy Tetris, Tetris Attack, Super Bomberman (bombs, CPU/arena), Mario Party board, WarioWare (loop, stage script), Mario Kart Super Circuit (physics, items, track/AI), Wave Race buoys, Mario Tennis, Star Fox rail tape.
+Skipped as unreadable: Mario Golf GBC (unlabelled dump). Thin at this commit: NSMB player moves, Wave Race rider physics, Star Fox player bounds, Mario Party dice/minigame picker.
+
 ## How a study runs
 
 1. Clone the repo read-only; find the mechanism's files (the decomp communities name them well: `camera.c`, `fishing.c`,
