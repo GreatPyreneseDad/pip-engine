@@ -44,10 +44,9 @@ handful of eased inputs. It fits a kids' racer without a physics engine.
    about 2.5°/tick, 74°/s.
 5. **Body yaw (the slip look).** A target yaw is `−steerAngle · s` where
    `s = (clamp(|v|, 0, 1.8) − 0.2) · 58` (68 while drifting); at speed and full stick ≈ 38° off the
-   heading. `bodyYaw` chases it: `bodyYaw += clamp((target − bodyYaw) / 4, ±750) · updateRate`. When
-   going slower than 3 the target is scaled down by `max(0, 3 − |v|)`... in practice the body straightens
-   as you stop. The model is drawn at `heading + bodyYaw`; velocity points along `heading +
-   driftHeadingOffset`.
+   heading. `bodyYaw` chases it: `bodyYaw += clamp((target − bodyYaw) / 4, ±750) · updateRate`. Below speed 3
+   the target is scaled by `max(0, |v| − 2)`, so the body straightens as the kart stops. The model is
+   drawn at `heading + bodyYaw`; velocity points along `heading + driftHeadingOffset`.
 6. **Surface averaging.** For each grounded wheel look up `drag[surface]`, `slide[surface]`, `bob[surface]`;
    average drag and slide over the grounded wheels. On water: drag 0.02, slide 0.
 7. **Drift entry/exit.** Enter when the trigger is held, |steerAngle| > 15 and speed > 3: `driftDir =
