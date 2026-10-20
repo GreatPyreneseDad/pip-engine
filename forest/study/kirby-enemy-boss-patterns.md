@@ -38,8 +38,9 @@ Velocities come from a fixed menu: 0.125, 0.25, 0.5, 0.75, 1.0, 1.25, 2.0, 3.0, 
 ## The patterns, as rows
 - **Walker**: one row, `vel 0 ±0.25..1.0 0` with gravity on; the engine's wall bump flips it. 0.25 px/f = 15 px/s is
   the slowest thing in the game and the first enemy a kid meets.
-- **Hopper**: gravity on, then a hand-drawn arc while drifting 0.75: `8 f at −3.0, 8 at −1.25, 8 at −0.5, 8 at +0.5,
-  8 at +1.25, 7 at +3.0`, then a 32-frame walk, loop. The arc is drawn, not simulated: ~48 frames, ~36 px tall.
+- **Hopper**: a hand-drawn arc with gravity *off* while drifting 0.75: `8 f at −3.0, 8 at −1.25, 8 at −0.5, 8 at
+  +0.5, 8 at +1.25, 7 at +3.0`; then gravity on and a 32-frame walk at 1.0; loop. The arc is drawn, not simulated:
+  ~48 frames, ~38 px tall.
 - **Waiting swooper**: `80 f still`, then an accelerating dive `−3.0, −1.25, −0.75, 0, +0.75, +3.0, +1.25, +0.75`
   (8–10 f each) while x grows 0.25 → 3.0: a hesitation, then a committed swoop that exits at full speed.
 - **Diver that waits for you**: fall 2 f at 1.25, `branchKirbyVertical` — not level yet → loop; level → swoop toward
