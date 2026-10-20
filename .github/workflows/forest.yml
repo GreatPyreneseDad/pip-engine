@@ -13,8 +13,10 @@ jobs:
       - name: Ask the factory to re-read the forest
         run: |
           API='https://cpobrznmlusoqrfrahsh.supabase.co/functions/v1/factory'
-          for f in $(curl -sS -X POST "$API?op=forest_ingest" -H 'content-type: application/json' -d '{}' | tr ',' '\n' | grep -o '[A-Za-z0-9_.-]*\.md'); do
-            printf '%s ' "$f"; curl -sS -X POST "$API?op=forest_ingest" -H 'content-type: application/json' -d "{\"path\":\"$f\"}"; echo
+          post() { curl -sS -X POST "$API?op=forest_ingest" -H 'content-type: application/json' -d "$1"; }
+          for f in $(post '{}' | tr ',' '\n' | grep -o '[A-Za-z0-9_.-]*\.md'); do
+            n=$(post "{\"path\":\"$f\"}" | grep -o '"chunks":[0-9]*' | grep -o '[0-9]*'); printf '%s %s chunks:' "$f" "$n"
+            i=0; while [ "$i" -lt "${n:-0}" ]; do r=$(post "{\"path\":\"$f\",\"chunk\":$i}"); case "$r" in *'"ok":true'*) printf '.';; *) printf ' !%s' "$i";; esac; i=$((i+1)); done; echo
           done
       - uses: actions/checkout@v4
       - name: Rebuild the human index
