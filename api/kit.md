@@ -68,6 +68,9 @@ kit.label(str, x, y, size, color, align)         small monospace HUD text.
 kit.noise(x, y?)                                 smooth noise 0..1: kit.noise(kit.t * .3) drifts slowly (wind, current); kit.noise(x * .01, kit.t) ripples water. Layer two or three octaves for natural motion.
 kit.wrap(v, lo, hi)                              v jumps to the other edge when it leaves lo..hi.
 
+PLATFORMER
+kit.platform(o, solids, dt, opts)   a jumping game's body, every frame: o is {x, y, w, h, vx, vy} (top-left box), solids a list of {x, y, w, h} (add oneWay: true for ledges you can jump up through). Reads arrows/WASD and space by itself; or pass {left, right, jump, jumpHeld}. Sets o.onGround, o.facing, o.landed, o.jumped, o.hitWall, o.hitHead. A tap jumps low, a held space jumps high; walking off a ledge still allows a jump for a moment. Feel knobs in opts: top (speed), jump, gravity (floaty vs heavy), dec (small = ice), airAcc (0 = committed jumps), scale (default .8). Draw o yourself.
+
 SOUND
 kit.zzfx([volume, randomness, frequency, attack, sustain, release, shape, shapeCurve, slide, deltaSlide, pitchJump, pitchJumpTime, repeatTime, noise, modulation, bitCrush, delay, sustainVolume, decay, tremolo, filter])
                   a custom ZzFX sound (any prefix of the 21 numbers; the rest take defaults). kit.sound(name) already covers laser zap explode coin jump hit powerup blip. At most 4 sounds a frame.
