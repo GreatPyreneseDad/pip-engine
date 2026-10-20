@@ -1,0 +1,16 @@
+# When a study note lands on main, the factory re-reads the forest and re-embeds it (in-house, gte-small in the edge function).
+name: forest
+on:
+  push:
+    branches: [main]
+    paths: ['forest/study/**']
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ask the factory to re-read the forest
+        run: |
+          curl -sS -X POST 'https://cpobrznmlusoqrfrahsh.supabase.co/functions/v1/factory?op=forest_ingest' -H 'content-type: application/json' -d '{}'
+      - uses: actions/checkout@v4
+      - name: Rebuild the human index
+        run: node scripts/forest-index.mjs && git diff --quiet || (git config user.name forest && git config user.email forest@users.noreply.github.com && git add forest/study/INDEX.md && git commit -m "forest: index" && git push)

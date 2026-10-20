@@ -40,3 +40,11 @@ are written by the crew.
 
 `forest/board/board.csv` — a snapshot of recomp.fyi's board (2,506 rows, 2026-10-19): game, system, work type,
 toolchain, status, last commit, repository. `forest/board/targets.md` is the shortlist with what each one teaches us.
+
+## Retrieval (the forest in the factory)
+
+Every note is chunked by heading and embedded in the factory's Supabase project (`forest_notes`, pgvector, 384-dim
+gte-small run inside the edge function; no outside embedding service). The factory's `build` op searches the forest with
+the kid's brief and hands the line the top notes as "FROM THE FOREST": engineering to borrow, never names. Ops:
+`forest_search {q, k}` (public) and `forest_ingest {}` (re-reads this folder from GitHub main; the `forest` workflow calls
+it on every push that touches `forest/study/`). `forest/study/INDEX.md` is the human index (`node scripts/forest-index.mjs`).
