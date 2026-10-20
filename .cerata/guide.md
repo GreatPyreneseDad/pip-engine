@@ -16,3 +16,9 @@ phones first). A new capability is useful only if the game-writing model can cal
    memory: cap any list it keeps.
 6. **Wiring:** a plugin in `src/kit/` is loaded automatically, so it's live as soon as it exists. The CLASSIC
    trial is that every existing test stays green.
+
+## Study, not consume (2026-10-19)
+
+Decomps and recomps of commercial games (the list in `forest/board/board.csv`) are studied, never consumed: a consume
+brief that names one must say `-- study:` and may only add a note under `forest/study/`. Nothing under `src/` is written
+from such a run. The mechanism in the note is rebuilt by hand in the kit's voice. See `forest/STUDY.md`.
