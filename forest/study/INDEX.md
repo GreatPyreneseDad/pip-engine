@@ -1,6 +1,6 @@
 # The forest: study notes
 
-Mechanisms learned from classic games (see ../STUDY.md). 58 notes. Each is also embedded in the factory's forest table, so the line is handed the relevant ones for a brief.
+Mechanisms learned from classic games (see ../STUDY.md). 61 notes. Each is also embedded in the factory's forest table, so the line is handed the relevant ones for a brief.
 
 - [Study · Animal Crossing (GameCube) · the real-time day, weather, and the bell economy](ac-day-economy.md) — The thing kids remember about this game is that it kept going when they were not there. Three mechanisms make
 - [Study · Animal Crossing (GameCube) · fish spawns and the bite](ac-fishing.md) — Fishing is the single most-requested "calm" minigame on the floor, and this is the one everybody is remembering
@@ -53,10 +53,13 @@ Mechanisms learned from classic games (see ../STUDY.md). 58 notes. Each is also 
 - [Study · Castlevania: Symphony of the Night (PS1) · weapon arcs, hit detection, hit-stun and invulnerability](sotn-hit-detection.md) — A sword swing that *feels* like it connects is three things: a hitbox that moves through the arc frame by frame,
 - [Study · Castlevania: Symphony of the Night (PS1) · drop tables and the loot roll](sotn-loot-roll.md) — Every "monster drops stuff" on the floor wants the same three feelings: *usually* a little something (a heart,
 - [Study · Castlevania: Symphony of the Night (PS1) · experience, level-ups and the damage formula](sotn-stat-growth.md) — "Make my guy level up" is the second thing a kid asks for after "make him jump". SotN's growth is four stats,
+- [Study · Star Fox (SNES) · the rail-shooter frame: a level tape unrolled by distance, enemy path scripts, the boost meter](starfox-rail-tape.md) — "Make me a space shooter" on the floor is a rail shooter: the world comes at you, enemies arrive in
 - [Study · Super Bomberman (SNES) · the bomb grid: cell flags, fuse, flame propagation and chaining, soft blocks and hidden pickups, player speed](superbomberman-bombs-flames.md) — "Bomb game" is the first multiplayer thing kids ask for after "race". The whole feel is in four mechanics:
 - [Study · Super Bomberman (SNES) · the computer player: a mode machine over four ray-walks, the danger mask, target picking — and the sudden-death spiral](superbomberman-cpu-and-arena.md) — A bomb game with no second kid on the floor needs an opponent that *looks* like it is thinking: it walks toward
+- [Study · Mario Tennis (Game Boy Color) · the ball, the swing, the rally AI, and the score](tennis-swing-and-ball.md) — "Tennis", "volleyball", "baseball", "ping-pong" — every bat-and-ball game on the floor is this machine:
 - [Study · Tetris Attack (Game Boy) · the panel field: swap, match scan, falls and the chain flag, combos, stop timer, rising stack and level curve](tetrisattack-panel-field.md) — Columns and Tetris drop a piece *into* a stack; this is the other great grid loop, the one behind every
 - [Study · Tetris (Game Boy) · the falling tetromino: randomizer, rotation, gravity table, soft drop, lock, line clear, scoring, levels, Type B](tetrisgb-falling-pieces.md) — Columns (see `columns-falling-jewels.md`) gave the floor its grid, lock, scan, collapse and chain machine. This
 - [Study · WarioWare, Inc. (GBA) · the microgame loop: pick, play on a beat clock, win or lose, lives, score, tempo](warioware-microgame-loop.md) — "Lots of tiny games, faster and faster, four lives" is a whole genre a kid can finish in an afternoon, and it is
 - [Study · WarioWare, Inc. (GBA) · the stage script: how a stage escalates — sets, speed-ups, the boss cadence, difficulty passes, and the endless loop](warioware-stage-script.md) — This is the *design shape* of a microgame collection, and it is data: a stage is a 60-line bytecode program
 - [Study · Wario Land 3 (Game Boy Color) · the no-death reaction system, treasure-gated level variants, and day/night](wl3-reaction-gating.md) — There is **no health and no death**. A hit either shoves you (a "sting") or **turns you into something** — on fire,
+- [Study · Wave Race 64 (N64) · the buoy course, the miss rule, and things that float](wr64-buoy-course.md) — The buoy course is the cleanest "do the thing in order" rule in racing: a chain of gates, each with a

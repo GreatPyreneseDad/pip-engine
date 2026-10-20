@@ -76,9 +76,11 @@ way and the AI, replays and touch controls cost nothing.
    - case 4, deep off-road: crawl — `a = +1/256 px/f²` while accelerate is held and `v ≤ 0.48 px/f`,
      else `−1/256`.
    - case 8, pad / item boost: `boostTimer−−`; `a = 50/256 = 0.195 px/f²` with the cap lifted to the hard
-     maximum 7.875 px/f (2.1× top). A boost pad gives 50 frames. When the timer ends, back to case 0.
-   - case 9, in the air after a hop: accelerate → `+4/256 px/f²` up to 3 px/f, `+1/2048` up to 5.1,
-     then `−0.125`; brake → `−0.125`; neither → `−1/32`.
+     maximum 7.875 px/f (2.1× top). The surface handler hands out timers of 50 and 24 frames for its two
+     kinds of pad tile. When the timer ends, back to case 0.
+   - case 9, launch ramp (a flag the ramp tiles set): accelerate → `+0.25 px/f²` (64 u) up to 3 px/f,
+     then `+2 u` up to 5.1 px/f, then `−0.125`; brake → `−0.125`; neither → `−8 u`. Accelerate + brake
+     together at low speed nudges toward 0.5 px/f.
    - case 10: hard stop surface, `a = −0.22 px/f²`.
    - case 12, mini-turbo: `boostTimer−−`; `a = 48/256 = 0.1875 px/f²` until `v = cap + 0.75 px/f`
      (+20 %), then held there. 48 frames.
@@ -113,21 +115,27 @@ can collapse them to one number and keep the class spread.
             A+B held, v ≤ 1 px/f
   normal ──────────────────────▶ spin-turn (15): rotates in place, back to normal when released
     │
-    │ v within |col0| of cap and |lean| > 0x2FF (hard steer, near top speed)
+    │ v within `window` of the cap and |lean| > 0x2FF (hard steer, near top speed)
     ▼
   drift (1..4) ──release / slow / no steer──▶ drift exit (11) ──▶ recover (14) ──▶ normal
     │
     │ counterSteer accumulator < −31232
     ▼
-  spin-out (5..8): yawOffset turns 5.6°/frame for a full circle, v bleeds (−1/32 px/f²), then recover
+  spin-out (5..8): yawOffset turns 6–14°/frame for a full circle, v bleeds (−1/32 px/f²), then recover
 ```
-- In a drift the kart moves along `heading + driftAngle`. Steering **into** the slide:
+- Entry needs speed: `window = |col0|` of the current row — only 16 u (0.06 px/f) below the cap with no
+  button, 512 u (2 px/f) with the drift button held. Hard steering at speed slides; the button lets
+  you slide earlier.
+- In a drift the kart moves along `heading + driftAngle`, and the angle only develops while steering
+  (with accelerate held, or with the drift button held above 1.75 px/f). Steering **into** the slide:
   `driftAngle += stepIn`, `counterSteer += 224 + row1`; **against** it: `driftAngle += stepOut`,
-  `counterSteer −= row1`, and past `−31232` the kart spins out. `driftAngle` is clamped to `±maxDrift`.
-  The row is chosen by surface and button: no button `maxDrift = 2048` (11°), drift button held row 7
-  `maxDrift = 8192` (45°), steps 128–352 units/frame (0.7–1.9°).
-- **Hop**: the drift-tap sets the airborne flag (steering row 1, surface case 9); `yawOffset` rotates
-  ±1152 units/frame (6°) while the stick is held and the kart turns on landing.
+  `counterSteer −= row1`, and past `−31232` the kart spins out (state 8). `driftAngle` is clamped to
+  `±maxDrift`. The row is chosen by surface and button: no button `maxDrift = 2048` (11°), drift button
+  held row 7 `maxDrift = 8192` (45°), steps 128–352 units/frame (0.7–1.9°).
+- **Airborne** (kart mode 4, after a jump): the turn is a fixed 128 units/frame (0.7°) whatever the
+  lean, and the ramp flag picks steering row 1. Two of the spin states turn the body's `yawOffset` by
+  1152 units/frame (6.3°) rather than the full 2560 (14°) of a hit spin. Drift exit (state 11) eases
+  `yawOffset` and `driftAngle` back by 1024 units/frame.
 - **Mini-turbo**: in surface case 0, with drift held and steering, `driftFrames++`; if `driftFrames >
   119` (2 s) and `v ≥ cap − 0.5 px/f`, arm it. On release with it armed (and not already boosting):
   spark sound, `boostTimer = 48`, surface case 12 → `cap + 0.75 px/f` for 0.8 s. Letting speed fall
