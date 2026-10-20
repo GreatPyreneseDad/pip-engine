@@ -1,11 +1,16 @@
 # The forest: study notes
 
-Mechanisms learned from classic games (see ../STUDY.md). 17 notes. Each is also embedded in the factory's forest table, so the line is handed the relevant ones for a brief.
+Mechanisms learned from classic games (see ../STUDY.md). 22 notes. Each is also embedded in the factory's forest table, so the line is handed the relevant ones for a brief.
 
+- [Study · Animal Crossing (GameCube) · the real-time day, weather, and the bell economy](ac-day-economy.md) — The thing kids remember about this game is that it kept going when they were not there. Three mechanisms make
+- [Study · Animal Crossing (GameCube) · fish spawns and the bite](ac-fishing.md) — Fishing is the single most-requested "calm" minigame on the floor, and this is the one everybody is remembering
+- [Study · Animal Crossing (GameCube) · a villager's day](ac-villager-schedule.md) — Kids ask for "a town where people live". What makes this town feel alive is not AI — it is a **timetable in
+- [Study · Advance Wars: Dual Strike (DS) · damage, luck, counter-fire, fog, and the power meter](awds-combat.md) — Turn-based tactics for kids lives or dies on one feeling: "my tank at half health should hit for about half".
 - [Study · Columns (Master System) · the falling three-jewel column: gravity, lock, matches, chains, levels](columns-falling-jewels.md) — Every "make me a Tetris / Candy Crush / Puyo" from the floor is this machine: a piece falls on a grid
 - [Study · Diddy Kong Racing and Crash Team Racing · boosts, zippers and the drift that charges one](dkr-drift-boost.md) — A boost is the loudest reward a racer gives. Two shapes are worth having: the **pad / pickup boost**
 - [Study · Diddy Kong Racing (N64) · kart handling on the ground](dkr-kart-handling.md) — A top-down or pseudo-3D canvas racer needs a kart that builds speed with a curve, loses it to drag that
 - [Study · Diddy Kong Racing (N64) · AI racers: following the track, the rubber band, and item pacing](dkr-racer-ai.md) — Opponents that drive the track, stay in a pack around the player, and use pickups with some restraint are
+- [Study · Harvest Moon 64 (N64) · the farm day: clock, crops, watering, stamina, shipping](hm64-farm-day.md) — "Plant, water, wait, sell" is the calmest loop a kid can ask for, and this game's version is tiny enough to hold
 - [Study · Mega Man 2 (NES) · the object pool, shared gravity/move routine, jump launch and energy refill](megaman2-object-pool-gravity.md) — Two things here are worth stealing for any 2D kids' game: (1) a fixed-size **object pool** where every object —
 - [Study · Ocarina of Time (N64) · the fishing pond: bite, hook, fight, size](oot-fishing.md) — "Fishing game" is one of the first things a kid asks for, and the naive version — tap, wait a random time, fish —
 - [Study · Ocarina of Time (N64) · Z-targeting: picking, holding and dropping a lock-on](oot-z-targeting.md) — On a touch screen there is no aiming. A kid taps "attack" and the game has to decide *which* thing they meant.
