@@ -1,6 +1,6 @@
 # The forest: study notes
 
-Mechanisms learned from classic games (see ../STUDY.md). 45 notes. Each is also embedded in the factory's forest table, so the line is handed the relevant ones for a brief.
+Mechanisms learned from classic games (see ../STUDY.md). 48 notes. Each is also embedded in the factory's forest table, so the line is handed the relevant ones for a brief.
 
 - [Study · Animal Crossing (GameCube) · the real-time day, weather, and the bell economy](ac-day-economy.md) — The thing kids remember about this game is that it kept going when they were not there. Three mechanisms make
 - [Study · Animal Crossing (GameCube) · fish spawns and the bite](ac-fishing.md) — Fishing is the single most-requested "calm" minigame on the floor, and this is the one everybody is remembering
@@ -31,6 +31,7 @@ Mechanisms learned from classic games (see ../STUDY.md). 45 notes. Each is also 
 - [Study · Mega Man 2 (NES) · the object pool, shared gravity/move routine, jump launch and energy refill](megaman2-object-pool-gravity.md) — Two things here are worth stealing for any 2D kids' game: (1) a fixed-size **object pool** where every object —
 - [Study · Mega Man 2 (NES) · getting hit: the hitbox test, knockback, hit-stun, i-frames and the shield deflect](megaman2-player-hit.md) — "My guy got hit" is the moment a kids' game either feels fair or feels broken. Mega Man 2 has the plainest, most
 - [Study · Mega Man 2 (NES) · nine weapons: what makes each shot type distinct, and the ammo economy](megaman2-weapons.md) — A kid asking for "different guns" wants the same thing every time: shots that *behave* differently, not shots with
+- [Study · New Super Mario Bros. (DS) · what a modern 2D platformer adds: the velocity model, the power-up ladder, the verb bits, and star-coin gating](nsmb-modern-feel.md) — The 1985 game (`smb-physics-scroll.md`) is one body, one jump, one way to hit things. Twenty years later the
 - [Study · Ocarina of Time (N64) · the fishing pond: bite, hook, fight, size](oot-fishing.md) — "Fishing game" is one of the first things a kid asks for, and the naive version — tap, wait a random time, fish —
 - [Study · Ocarina of Time (N64) · Z-targeting: picking, holding and dropping a lock-on](oot-z-targeting.md) — On a touch screen there is no aiming. A kid taps "attack" and the game has to decide *which* thing they meant.
 - [Study · 3D Pinball: Space Cadet (Windows, 1995) · the ball step, the bounce formula, the flipper, bumpers, the plunger, and the mission ladder](pinball-flipper-ball.md) — Pinball is the physics toy every kid recognises and the one most engines get wrong by using a general rigid-body
@@ -42,6 +43,8 @@ Mechanisms learned from classic games (see ../STUDY.md). 45 notes. Each is also 
 - [Study · Space Invaders (1978 arcade) · the wave: a formation that marches and drops, speeds up as it dies, fires on a cadence, with a saucer and four shields](si-invader-wave.md) — "Make a space shooter" from a seven-year-old means this: a block of things that steps sideways, drops, and gets
 - [Study · Super Mario 64 (N64) · the player's action state machine and what a hit does](sm64-action-states.md) — Every character on the floor ends up with a tangle of booleans: `jumping`, `hurt`, `sliding`, `canJump`. Mario 64
 - [Study · Super Mario 64 (N64) · the follow camera](sm64-camera.md) — Every scrolling game on the floor has a camera, and nearly all of them are wrong in the same way: glued to the
+- [Study · Super Mario Bros. (NES) · walkers, shells, the stomp rule, power-up states, and the timer/score/1-up economy](smb-enemies-powerups-economy.md) — The bestiary of the most-copied platformer is three behaviours (walk, turn-at-edge, shell) and one rule (fall on
+- [Study · Super Mario Bros. (NES) · walk, run, skid, the speed-dependent jump, and the camera that only moves right](smb-physics-scroll.md) — `sonic-movement.md` is the fast-and-slippery platformer; this is the other pole, the one most kids have in their
 - [Study · Sonic the Hedgehog (Genesis) · ground movement and jumping](sonic-movement.md) — Every "make me a platformer" on the floor needs the same four feelings: a run that builds, a stop that bites, a jump
 - [Study · Castlevania: Symphony of the Night (PS1) · weapon arcs, hit detection, hit-stun and invulnerability](sotn-hit-detection.md) — A sword swing that *feels* like it connects is three things: a hitbox that moves through the arc frame by frame,
 - [Study · Castlevania: Symphony of the Night (PS1) · drop tables and the loot roll](sotn-loot-roll.md) — Every "monster drops stuff" on the floor wants the same three feelings: *usually* a little something (a heart,

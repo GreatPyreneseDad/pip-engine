@@ -65,7 +65,9 @@ hit still plays its knockback.
    **1.25 px/frame** (`$14`; one boss uses 1.5), and `knockback = 16 frames`. While `knockback > 0` input is
    ignored, the speed is applied each frame, and a wall collision zeroes that axis (you slide along the wall, you
    do not stop dead). Total push ≈ **20 px**. Dash state is cancelled.
-7. Spikes, lava and pits use the same buffer with **4** (half heart) and their own small push.
+7. Hazards use the same buffer with **4** (half heart). Spikes (`HurtBySpikes`) *reverse* the current speed
+   instead of aiming away, add a small hop (`vz = 1`, 16 frames of forced motion) and give a shorter mercy of
+   **48 frames**; a pit fall takes 4 and returns the player to the room's entry point.
 
 ```
    contact ──gate──▶ knockback>0? ──no──▶ mercy>0? ──no──▶ damage→buffer, mercy=80, knockback=16, v=1.25 away

@@ -61,7 +61,8 @@ sword level higher. Releasing early just lowers the sword.
 
 `EnemyCollidedWithSword`, the common path:
 - `clinkOff` enemies (armoured): no damage; a "clink" spark at the enemy; `ignoreHits = 16`; **the player** is
-  pushed back instead (same knockback as a hit, 1.125 px/frame for 12 frames, no damage) and dash is cancelled.
+  pushed back instead (the same knockback as being hit — 1.25 px/frame away for 16 frames — but no damage and no
+  mercy timer) and dash is cancelled.
 - Otherwise: `lastHitEntity = this`, `swordCharge = 0`, **recoil** the enemy at **3 px/frame** (`$30`) along the
   vector from the player to the enemy (`ConfigureEntityRecoil`), `ignoreHits = 10`, bump sound, then apply damage.
   A power hit (red tunic / power-up) uses `ignoreHits = 32` and a stronger sound.
@@ -112,8 +113,9 @@ rupee) popping up at `vz = 1 px/frame`. The spin attack cuts in all eight direct
   numbers are 2× LADX's. `$F9–$FF` are effects there too (fairy, freeze, stun, burn).
 - Spin and dash use "same as slash" with a +class flag (`.spinning` sets bit 2, poke bit 3).
 - **Recoil is stronger**: the sprite is launched **5 px/frame** away (`$50`; `$40` for a charged swing), the sword
-  is dead for **16 frames** (`$47 = $10`) after any hit, and a struck player bounces with **2 px/frame**. Death
-  state runs **31 frames** (`$1F`) vs LADX's 47.
+  is dead for **16 frames** (`$47 = $10`) after any hit, and armoured (clink-off) enemies bounce the player back
+  at **2 px/frame** (`$20`) — the same "the wall hits you back" rule as the Game Boy's. Death state runs
+  **31 frames** (`$1F`) vs LADX's 47.
 - Freeze/stun carry explicit timers (32, 128, 255 frames) in a small table; LADX uses an entity "stunned" status.
 
 ## Numbers (LADX)
